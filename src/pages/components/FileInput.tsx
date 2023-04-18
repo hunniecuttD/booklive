@@ -25,7 +25,7 @@
       });
     };
     const { mutateAsync: getPresignedUrl } =
-      api.user.getPresignedUrl.useMutation();
+      api.s3.getPresignedUrl.useMutation();
    
     const uploadToS3 = async (file: File | undefined, presignedUrl: string) => {
       if (!file || !presignedUrl) return;

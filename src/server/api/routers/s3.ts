@@ -19,6 +19,7 @@ const signupShape = z.object({
     displayName: z.string(),
     // profileType: z.string(),
     primaryInstrument: z.string(),
+    profileImage: z.string(),
     skillLevel: z.number(),
     zipcode: z.string(),
     // otherInstruments: z.array(z.string()),
@@ -26,18 +27,13 @@ const signupShape = z.object({
     // lookingForBand: z.boolean(),
  })
 
-export const userRouter = createTRPCRouter({
-  signup: protectedProcedure.input(signupShape).mutation(async ({ input, ctx }) => {
-    console.log("signup", input);
-    const newUser = await ctx.prisma.user.create({
-      data: input,
-    });
-    console.log("newUser", newUser, ctx.session);
-    return newUser;
+export const s3Router = createTRPCRouter({
+  signup: protectedProcedure.input(signupShape).mutation(({ input, ctx }) => {
+    console.log("signup", input, ctx.session);
   }),
   getPresignedUrl: publicProcedure
   .input(z.object({ fileName: z.string()}))
-  .mutation(async ({ input }) => {
+  .mutation(({ input }) => {
     if (!input || !input.fileName) {
       throw new Error("no input");
     }
