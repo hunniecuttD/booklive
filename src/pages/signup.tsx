@@ -24,11 +24,14 @@ const SignUp: NextPage = () => {
             Book <span className="text-[hsl(280,100%,70%)]">Live</span> Gig
           </h1>
           <div className="flex max-w-xl flex-col gap-2 rounded-xl bg-white/10 p-2 text-white hover:bg-white/20">
-            <h3 className="text-2xl font-bold">Sign Up →</h3>
+            <h3 className="text-2xl font-bold">Sign up as a →
+              <select className="text-1xl font-bold bg-gradient-to-b from-[#2e026d] to-[#15162c]" name="userType" id="userType">
+                <option value="band">Band</option>
+                <option value="musician">Musician</option>
+                <option value="venueOwner">Venue Owner</option>
+              </select>
+            </h3>
             <div className="text-lg">
-              Free tools to book live gigs easier for both artists and venue
-              owners.
-              {/* form to sign up user */}
               <MusicianSignupForm />
             </div>
           </div>
