@@ -56,8 +56,28 @@
       <div>
         <main>
           <label>Profile image</label>
-          <input className="block w-full text-sm text-gray-900 border rounded-lg cursor-pointer dark:text-gray-400 focus:outline-none" type="file" onChange={(e) => selectFile(e)} />
-          {uploadingStatus && <p className="text-sm text-gray-900">{uploadingStatus}</p>}
+          <input
+            className="block inline-block w-full cursor-pointer cursor-pointer rounded-lg rounded-md border bg-white/10 p-2 text-white hover:bg-white/20 py-2 px-4 text-sm text-white text-bold focus:outline-none"
+            type="file"
+            onChange={(e) => selectFile(e)}
+          />
+          {uploadingStatus && (
+            <span>
+              <svg
+                className="ml-2 -mr-0.5 h-4 w-4 text-green-500"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M6.293 11.707a1 1 0 0 1 0-1.414l4-4a1 1 0 0 1 1.414 0l8 8a1 1 0 0 1-1.414 1.414l-7.293-7.293-3.293 3.293a1 1 0 0 1-1.414 0z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </span>
+          )}
         </main>
       </div>
     );
