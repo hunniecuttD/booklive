@@ -64,3 +64,14 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model UserProfile {
+    id                  String    @id @default(cuid())
+    userId              String
+    displayName         String
+    primaryInstrument   String
+    bio                 String
+    skillLevel          Int
+    profileImage        String
+    zipCode             String
+}

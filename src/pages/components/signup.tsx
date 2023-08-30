@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/require-await */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@trpc/react';
 // import { userRouter } from './userRouter';

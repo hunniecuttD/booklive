@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/require-await */
 import { type NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useState, useRef } from "react";
@@ -11,7 +14,7 @@ const SignUp: NextPage = () => {
 
   return (
     <>
-      <div className="flex max-w-xl flex-col gap-2 rounded-xl bg-white/10 p-2 text-white hover:bg-white/20">
+      <div className="flex max-w-xl flex-col gap-2 rounded-xl bg-white/10 p-2 text-white hover:bg-white/20 pt-4">
         <h3 className="text-3xl font-bold text-center">
           Sign up as a →
         </h3>
@@ -42,9 +45,36 @@ export default SignUp;
 
 const MusicianSignupForm: React.FC = () => {
   const skillLevelDisplay = useRef<HTMLInputElement>(null);
-  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [profileImage, setProfileImage] = useState<string | ''>('');
+  const signupSubmit = api.profile.signup.useMutation();
+  
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    event.preventDefault();
+    // console.log('event', event);
+    const form = new FormData(event.currentTarget);
+    const displayName = form.get('displayName')?.toString() || '';
+    const instrument = form.get('instrument')?.toString() || '';
+    const bio = form.get('bio')?.toString() || '';
+    const zipcode = form.get('zipCode')?.toString() || '';
+    const skillLevel = form.get('skillLevel') as unknown as number;
+    console.log(displayName, instrument, bio, profileImage);
+    try {
+      const user = await signupSubmit.mutateAsync({
+        displayName,
+        primaryInstrument: instrument || '',
+        bio,
+        profileImage,
+        zipcode,
+        skillLevel: parseInt(skillLevel.toString(), 10),
+      });
+      console.log('user', user);
+    } catch (error) {
+      console.error('Error signing up:', error);
+    }
+  };
 
-  function imageSrcCallback(imageSrc: string | null): void {
+
+  function imageSrcCallback(imageSrc: string | ''): void {
     console.log('imageSrc', imageSrc);
     setProfileImage(imageSrc);
   }
@@ -53,28 +83,6 @@ const MusicianSignupForm: React.FC = () => {
     if (skillLevelDisplay.current)
       skillLevelDisplay.current.value = event.currentTarget.value;
 
-  }
-
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>): Promise<void> {
-    event.preventDefault();
-    // console.log('event', event);
-    const form = new FormData(event.currentTarget);
-    const displayName = form.get('displayName')?.toString();
-    const instrument = form.get('instrument')?.toString();
-    const bio = form.get('bio')?.toString();
-    const zipCode = form.get('zipCode')?.toString();
-    const skillLevel = form.get('skillLevel') as number;
-    console.log(displayName, instrument, bio, profileImage);
-    // const user = await api.user.signup.mutateAsync({
-    //   displayName,
-    //   primaryInstrument: instrument || '',
-    //   bio,
-    //   profileImage,
-    //   zipCode,
-    //   skillLevel,
-    // });
-
-    // console.log('user', user);
   }
   
   return (<form onSubmit={handleSubmit} className="flex flex-col gap-2">
